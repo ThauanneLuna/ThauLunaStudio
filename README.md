@@ -1,9 +1,9 @@
 <p align="center">
-< src="img/logo.png" alt="Thau Luna Studio" width="190">
+  <img src="img/logo.png" alt="Logo Thau Luna Studio" width="190">
 </p><h1 align="center">🌙 Thau Luna Studio</h1><p align="center">
   <strong>Onde cada detalhe conta.</strong>
 </p><p align="center">
-  <em>Produtos criativos, personalização, design e soluções digitais.</em>
+  <em>Produtos criativos • Personalização • Design • Soluções digitais</em>
 </p><p align="center">
   <a href="https://thauanneluna.github.io/ThauLunaStudio/">
     <img src="https://img.shields.io/badge/ACESSAR%20LOJA-C85E71?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Acessar loja">
@@ -157,7 +157,7 @@ Construir uma marca criativa em constante evolução, ampliando suas possibilida
 <p align="center">
   <img src="img/logo.png" alt="Thau Luna Studio" width="75">
 </p><h3 align="center">🌙 Thau Luna Studio</h3><p align="center">
-  <strong>Produtos físicos. Design. Soluções digitais.</strong>
+  <strong>Produtos físicos • Design • Soluções digitais</strong>
 </p><p align="center">
   <em>Onde cada detalhe conta.</em>
 </p><p align="center">
