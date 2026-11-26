@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./logo.webp" alt="Thau Luna Studio" width="180">
+  <img src="img/logo.webp" alt="Thau Luna Studio" width="180">
 </p><h1 align="center">🌙 Thau Luna Studio</h1><p align="center">
   <strong>Onde cada detalhe conta!</strong>
 </p><p align="center">
@@ -7,7 +7,7 @@
 </p><p align="center">
   Uma marca criativa que transforma ideias em produtos e experiências com personalidade, delicadeza e significado.
 </p><p align="center">
-  <a href="https://thaulunastudio.lovable.app">
+  <a href="https://thaulunastudio">
     <img src="https://img.shields.io/badge/🌐%20Visitar%20Loja-F8BBD0?style=for-the-badge">
   </a>
   <a href="https://www.instagram.com/thauluna_studio">
