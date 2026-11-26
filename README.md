@@ -1,50 +1,50 @@
 <p align="center">
-  <img src="img/logo.png" alt="Thau Luna Studio" width="180">
+< img src="img/logo.png" alt="Thau Luna Studio" width="190">
 </p><h1 align="center">🌙 Thau Luna Studio</h1><p align="center">
-  <strong>Onde cada detalhe conta!</strong>
+  <strong>Onde cada detalhe conta.</strong>
 </p><p align="center">
-  <em>Produtos personalizados • Acessórios • Presentes • Design • Soluções Web</em>
+  <em>Produtos criativos, personalização, design e soluções digitais.</em>
 </p><p align="center">
-  Uma marca criativa que transforma ideias em produtos e experiências com personalidade, delicadeza e significado.
-</p><p align="center">
-  <a href="https://thaulunastudio">
-    <img src="https://img.shields.io/badge/🌐%20Visitar%20Loja-F8BBD0?style=for-the-badge">
+  <a href="https://thauanneluna.github.io/ThauLunaStudio/">
+    <img src="https://img.shields.io/badge/ACESSAR%20LOJA-C85E71?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Acessar loja">
   </a>
   <a href="https://www.instagram.com/thauluna_studio">
-    <img src="https://img.shields.io/badge/Instagram-FADADD?style=for-the-badge&logo=instagram&logoColor=white">
+    <img src="https://img.shields.io/badge/INSTAGRAM-D9788D?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram">
   </a>
 </p>---
 
-✨ Sobre a marca
+✨ Sobre a Thau Luna Studio
 
-A Thau Luna Studio é uma marca criativa que une produtos físicos, personalização, design e desenvolvimento web.
+A Thau Luna Studio é uma marca criativa que une o universo dos produtos físicos ao desenvolvimento de soluções digitais.
 
-Nascida da evolução da Thau Luna Acessórios, a marca ampliou seus horizontes para oferecer não apenas produtos, mas também soluções criativas e digitais.
+Nascida da evolução da Thau Luna Acessórios, a marca expandiu sua proposta para oferecer produtos personalizados, presentes, acessórios, serviços de design e projetos web.
 
-Cada criação é pensada para expressar personalidade, transmitir significado e transformar ideias em experiências especiais.
+Mais do que uma loja, a Thau Luna Studio é um espaço onde criatividade e propósito se encontram para transformar ideias em criações únicas.
 
-«Mais do que criar produtos, transformar ideias em detalhes que contam histórias.»
+Nossa essência está em três pilares:
+
+- 🎨 Criatividade: ideias transformadas em projetos e produtos.
+- 💗 Personalidade: criações que refletem gostos, histórias e identidades.
+- ✨ Cuidado: atenção aos detalhes em cada etapa.
 
 ---
 
-🎀 O que você encontra
+🛍️ Nossas categorias
 
-📿 Acessórios e produtos personalizados
+🎀 Produtos físicos
 
-- Pulseiras personalizadas
-- Chaveiros e acessórios
-- Peças feitas à mão
-- Presentes personalizados
-- Produtos temáticos
+Criações pensadas para presentear, colecionar ou tornar momentos especiais.
 
-🎁 Boxes e presentes
-
+- Acessórios personalizados
+- Pulseiras e chaveiros
 - Boxes temáticas
-- Kits personalizados
-- Presentes para datas especiais
-- Combinações criativas de produtos
+- Kits e presentes
+- Polaroids personalizadas
+- Produtos criativos e temáticos
 
-💻 Serviços digitais
+💻 Design e soluções web
+
+Serviços criativos e digitais para pessoas, projetos e pequenos negócios.
 
 - Criação de sites
 - Desenvolvimento de landing pages
@@ -55,119 +55,111 @@ Cada criação é pensada para expressar personalidade, transmitir significado e
 
 ---
 
-🌎 Criatividade sem limites
+🌎 Personalização e criatividade
 
-As criações podem explorar diferentes temas, estilos e universos, respeitando a personalidade e as preferências de cada cliente.
+Cada pessoa tem suas próprias referências, preferências e histórias. Por isso, nossas criações podem explorar diferentes estilos e universos.
 
-- 📚 Literatura
-- 🎬 Filmes e séries
-- ✨ Disney e animações
-- 🇯🇵 Animes
-- 🎭 Doramas
-- 🎮 Jogos
-- 🎉 Datas comemorativas
-- 💌 Ideias e temas personalizados
+Algumas inspirações:
 
----
+<div align="center">📚 Literatura & Livros · 🎬 Filmes & Séries · ✨ Disney & Animações
 
-💖 Como funciona
+🇯🇵 Animes · 🎭 Doramas · 🎮 Jogos
 
-01 · Explore
+💌 Datas especiais · 🎀 Temas personalizados
 
-Conheça os produtos e serviços disponíveis na loja.
-
-02 · Escolha
-
-Encontre a opção que combina com sua ideia ou necessidade.
-
-03 · Personalize
-
-Converse com o estúdio para definir os detalhes da sua encomenda ou projeto.
-
-04 · Finalize
-
-O atendimento e a finalização dos pedidos são realizados diretamente pelo WhatsApp.
+</div>A possibilidade de personalização permite transformar referências pessoais em produtos com significado.
 
 ---
 
-✨ Nossos diferenciais
+💌 Como funciona
 
-- Personalização: cada criação pode carregar a identidade de quem escolhe.
-- Criatividade: ideias transformadas em produtos e soluções.
-- Cuidado: atenção aos detalhes em cada etapa.
-- Versatilidade: produtos físicos e serviços digitais em um só estúdio.
-- Atendimento próximo: contato direto para alinhar necessidades e expectativas.
+<ol>
+  <li><strong>Explore:</strong> conheça os produtos e serviços disponíveis.</li>
+  <li><strong>Escolha:</strong> encontre o que combina com sua ideia ou necessidade.</li>
+  <li><strong>Personalize:</strong> converse com o estúdio para definir os detalhes.</li>
+  <li><strong>Finalize:</strong> alinhe seu pedido ou projeto diretamente pelo WhatsApp.</li>
+</ol>---
 
----
+💗 Identidade da marca
 
-🎨 Identidade visual
+A identidade visual da Thau Luna Studio traduz sua essência: delicadeza, criatividade e profissionalismo.
 
-A identidade da Thau Luna Studio combina delicadeza, criatividade e profissionalismo.
-
-Estilo
-
-Feminino • Delicado • Criativo • Elegante • Moderno • Acolhedor
+Conceito: feminino, contemporâneo, acolhedor e criativo.
 
 Paleta oficial
 
-Cor| Código HEX| Aplicação
-Rosa Cereja| #C85E71| Cor principal
-Rosa Suave| #EFBAB7| Cor complementar
-Rosa Goiaba| #D9788D| Cor complementar
-Rosa Névoa| #F7DCDC| Fundos delicados
-Bege Champagne| #F5E7DA| Tom neutro
-Creme Porcelana| #FFF7F1| Fundo principal
-
-Os códigos HEX são oficiais e devem ser preservados nos materiais da marca.
-
----
-
-💻 Tecnologias
-
-<div align="center">
-  <img src="https://skillicons.dev/icons?i=html,css,js&theme=light">
-</div>A frente digital da Thau Luna Studio utiliza tecnologia para desenvolver experiências funcionais, intuitivas e visualmente cuidadosas.
-
----
-
-🌙 Nossa filosofia
-
-Acreditamos que cada detalhe tem potencial para fazer a diferença.
-
-Seja um acessório personalizado, um presente especial, uma identidade visual ou um site desenvolvido do zero, cada projeto representa uma ideia que merece atenção.
-
-Criatividade para imaginar. Cuidado para criar. Profissionalismo para entregar.
-
----
-
-💌 Missão
-
-Transformar ideias em produtos e experiências que unam criatividade, personalidade e significado, oferecendo soluções que aproximem pessoas, valorizem detalhes e tornem cada projeto único.
-
----
-
-🌐 Conheça a loja
+Cor| HEX| Função
+Rosa Cereja| "#C85E71"| Cor principal
+Rosa Suave| "#EFBAB7"| Cor complementar
+Rosa Goiaba| "#D9788D"| Destaques
+Rosa Névoa| "#F7DCDC"| Fundos delicados
+Bege Champagne| "#F5E7DA"| Tom neutro
+Creme Porcelana| "#FFF7F1"| Fundo principal
 
 <p align="center">
-  <a href="https://thaulunastudio.lovable.app">
-    <img src="https://img.shields.io/badge/🌙%20Acessar%20Thau%20Luna%20Studio-F8BBD0?style=for-the-badge">
+  <img src="https://placehold.co/100x55/C85E71/C85E71.png" alt="Rosa Cereja">
+  <img src="https://placehold.co/100x55/EFBAB7/EFBAB7.png" alt="Rosa Suave">
+  <img src="https://placehold.co/100x55/D9788D/D9788D.png" alt="Rosa Goiaba">
+  <img src="https://placehold.co/100x55/F7DCDC/F7DCDC.png" alt="Rosa Névoa">
+  <img src="https://placehold.co/100x55/F5E7DA/F5E7DA.png" alt="Bege Champagne">
+  <img src="https://placehold.co/100x55/FFF7F1/FFF7F1.png" alt="Creme Porcelana">
+</p>Os códigos HEX são referências oficiais da identidade visual e devem ser preservados nos materiais da marca.
+
+---
+
+🖥️ Projeto digital
+
+A loja virtual foi desenvolvida para apresentar os produtos e serviços da marca em um ambiente digital acessível e organizado.
+
+Tecnologias e ferramentas utilizadas no projeto:
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=html,css,js&theme=light" alt="HTML, CSS e JavaScript">
+</p>O desenvolvimento busca combinar:
+
+- Interface intuitiva e responsiva.
+- Identidade visual consistente.
+- Experiência de navegação agradável.
+- Apresentação organizada dos produtos e serviços.
+- Atendimento e finalização de pedidos pelo WhatsApp.
+
+---
+
+🌙 Nossa missão
+
+Transformar ideias em produtos e experiências que unam criatividade, personalidade e significado, valorizando os pequenos detalhes e oferecendo soluções que façam sentido para cada cliente.
+
+✨ Nossa visão
+
+Construir uma marca criativa em constante evolução, ampliando suas possibilidades no universo dos produtos personalizados, do design e das soluções digitais.
+
+💗 Nossos valores
+
+- Criatividade e originalidade.
+- Cuidado com os detalhes.
+- Personalização e autenticidade.
+- Compromisso e profissionalismo.
+- Evolução e aprendizado contínuo.
+
+---
+
+🔗 Encontre a Thau Luna Studio
+
+<p align="center">
+  <a href="https://thauanneluna.github.io/ThauLunaStudio/">
+    <img src="https://img.shields.io/badge/LOJA%20VIRTUAL-C85E71?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Loja virtual">
   </a>
-</p><p align="center">
-  <strong>thaulunastudio.lovable.app</strong>
-</p>📸 Instagram
-
-<p align="center">
   <a href="https://www.instagram.com/thauluna_studio">
-    <img src="https://img.shields.io/badge/@thauluna__studio-E4405F?style=for-the-badge&logo=instagram&logoColor=white">
+    <img src="https://img.shields.io/badge/INSTAGRAM-D9788D?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram">
   </a>
 </p>---
 
-<div align="center">🌙 Thau Luna Studio
-
-Produtos físicos • Personalização • Design • Soluções Web
-
-Onde cada detalhe conta!
-
-♡ Criado por Thauanne Luna
-
-</div>
+<p align="center">
+  <img src="img/logo.png" alt="Thau Luna Studio" width="75">
+</p><h3 align="center">🌙 Thau Luna Studio</h3><p align="center">
+  <strong>Produtos físicos. Design. Soluções digitais.</strong>
+</p><p align="center">
+  <em>Onde cada detalhe conta.</em>
+</p><p align="center">
+  Desenvolvido com criatividade por <strong>Thauanne Luna</strong> ♡
+</p>
