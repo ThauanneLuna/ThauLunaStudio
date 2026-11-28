@@ -12,7 +12,8 @@ const FLOW=["recebido","em_producao","embalado","enviado","entregue"];
 const needCfg=()=>`<div class="page c"><h1>Conta</h1><p>O login ainda não foi conectado. Preencha <b>SUPABASE_URL</b> e <b>SUPABASE_KEY</b> no arquivo <code>config.js</code> para ativar.</p></div>`;
 const avUrl=u=>{const m=u?.user_metadata||{};return m.avatar_url||m.picture||""};
 const avLetter=u=>((u?.user_metadata?.full_name||u?.user_metadata?.name||u?.email||"?").trim()[0]||"?").toUpperCase();
-const avHTML=(u,c="av")=>avUrl(u)?`<img class="${c}" src="${E(avUrl(u))}" alt="" referrerpolicy="no-referrer">`:`<span class="${c}">${E(avLetter(u))}</span>`;
+const avHTML=(u,c="av")=>avUrl(u)?`<img class="${c}" src="${E(avUrl(u))}" alt="" referrerpolicy="no-referrer" onerror="var s=document.createElement('span');s.className='${c}';s.textContent='${E(avLetter(u))}';this.replaceWith(s)">`:`<span class="${c}">${E(avLetter(u))}</span>`;
+const loads=u=>new Promise(r=>{const i=new Image();i.onload=()=>r(i.naturalWidth>0);i.onerror=()=>r(false);i.src=u});
 function navUser(){const a=document.getElementById("acctBtn");if(!a)return;
   a.innerHTML=user?`${avHTML(user)}<span class="avn">Minha conta</span>`:"Entrar";a.href=user?"#/conta":"#/entrar";a.setAttribute("aria-label",user?"Minha conta":"Entrar")}
 if(HASH_ERR)setTimeout(()=>toast("Não foi possível entrar: "+decodeURIComponent(HASH_ERR.replace(/\+/g," "))),600);
@@ -92,7 +93,10 @@ window.ACCOUNT={
     fi.onchange=async()=>{const f=fi.files[0];if(!f)return;if(!f.type.startsWith("image/")){toast("Escolha uma imagem.");return}
       try{const b=await toBlob(f),path=`${user.id}/avatar.jpg`;
         const up=await sb.storage.from("avatars").upload(path,b,{upsert:true,contentType:"image/jpeg"});if(up.error)throw up.error;
-        await setMeta(sb.storage.from("avatars").getPublicUrl(path).data.publicUrl+"?v="+Date.now());toast("Foto atualizada 💖");ACCOUNT.conta(el)}
+        let url=sb.storage.from("avatars").getPublicUrl(path).data.publicUrl+"?v="+Date.now();
+        if(!await loads(url)){const sg=await sb.storage.from("avatars").createSignedUrl(path,315360000);url=sg.data?.signedUrl||"";
+          if(!url||!await loads(url)){toast("A foto foi enviada, mas não abre. A pasta de fotos precisa estar pública (veja o ajuste no banco).");return}}
+        await setMeta(url);toast("Foto atualizada 💖");ACCOUNT.conta(el)}
       catch(x){toast("Não consegui enviar a foto. O armazenamento de fotos ainda não foi ativado.")}};
     const rm=el.querySelector("#avRm");if(rm)rm.onclick=async()=>{try{await sb.storage.from("avatars").remove([`${user.id}/avatar.jpg`]);await setMeta("");toast("Foto removida.");ACCOUNT.conta(el)}catch{toast("Não consegui remover a foto.")}};
     el.querySelector("#delBtn").onclick=()=>{const w=document.createElement("div");w.className="sheet-bg";
