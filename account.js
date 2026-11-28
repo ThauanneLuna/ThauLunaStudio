@@ -10,7 +10,11 @@ const R=n=>Number(n).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 const STATUS={recebido:["Pedido recebido","Recebemos seu pedido com muito carinho 💖"],em_producao:["Em produção","Suas peças estão sendo feitas à mão."],embalado:["Embalado","Pronto e embaladinho para envio."],enviado:["Enviado","Já está a caminho de você."],entregue:["Entregue","Chegou! Esperamos que ame ✨"],cancelado:["Cancelado","Este pedido foi cancelado."]};
 const FLOW=["recebido","em_producao","embalado","enviado","entregue"];
 const needCfg=()=>`<div class="page c"><h1>Conta</h1><p>O login ainda não foi conectado. Preencha <b>SUPABASE_URL</b> e <b>SUPABASE_KEY</b> no arquivo <code>config.js</code> para ativar.</p></div>`;
-function navUser(){const a=document.getElementById("acctBtn");if(a){a.textContent=user?"👤 Minha conta":"Entrar";a.href=user?"#/conta":"#/entrar"}}
+const avUrl=u=>{const m=u?.user_metadata||{};return m.avatar_url||m.picture||""};
+const avLetter=u=>((u?.user_metadata?.full_name||u?.user_metadata?.name||u?.email||"?").trim()[0]||"?").toUpperCase();
+const avHTML=(u,c="av")=>avUrl(u)?`<img class="${c}" src="${E(avUrl(u))}" alt="" referrerpolicy="no-referrer">`:`<span class="${c}">${E(avLetter(u))}</span>`;
+function navUser(){const a=document.getElementById("acctBtn");if(!a)return;
+  a.innerHTML=user?`${avHTML(user)}<span class="avn">Minha conta</span>`:"Entrar";a.href=user?"#/conta":"#/entrar";a.setAttribute("aria-label",user?"Minha conta":"Entrar")}
 if(HASH_ERR)setTimeout(()=>toast("Não foi possível entrar: "+decodeURIComponent(HASH_ERR.replace(/\+/g," "))),600);
 if(sb){
   sb.auth.getSession().then(({data})=>{user=data.session?.user||null;navUser();window.route&&window.route()});
@@ -66,8 +70,8 @@ window.ACCOUNT={
     let nf=0,nc=0;try{nf=fav.length;nc=cart.reduce((a,i)=>a+i.quantity,0)}catch{}
     const F=(k,l,x={})=>`<div class="fld${x.full?" full":""}"><label for="f_${k}">${l}</label><input id="f_${k}" name="${k}" value="${E(p[k])}" ${x.attr||""}></div>`;
     el.innerHTML=`<div class="acc">
-      <div class="acc-h"><div class="avatar" aria-hidden="true">${E((first||user.email)[0].toUpperCase())}</div>
-        <div class="acc-t"><span class="kick">Minha conta</span><h1>${first?`Olá, ${E(first)}!`:"Olá!"}</h1><p>${E(user.email)}<br><small>Cliente desde ${since}</small></p></div>
+      <div class="acc-h"><div class="avwrap"><button type="button" class="avbtn" id="avBtn" aria-label="Alterar foto">${avHTML(user,"avatar")}<span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-2h6l2 2h3v11H4zM12 17a3.500 3.500 0 100-7 3.500 3.500 0 000 7z"/></svg></span></button><input type="file" id="avFile" accept="image/*" hidden></div>
+        <div class="acc-t"><span class="kick">Minha conta</span><h1>${first?`Olá, ${E(first)}!`:"Olá!"}</h1><p>${E(user.email)}<br><small>Cliente desde ${since}</small>${user.user_metadata?.avatar_url?`<br><button type="button" class="lnk" id="avRm">Remover foto</button>`:""}</p></div>
         <button class="pill" id="so">Sair</button></div>
       <div class="acc-cards">
         <a class="acard" href="#/pedidos"><b>${orders.length}</b><span>${orders.length===1?"pedido":"pedidos"}</span><small>${last?`Último: ${(STATUS[last.status]||[last.status])[0]}`:"Nenhum ainda"}</small></a>
@@ -80,7 +84,27 @@ window.ACCOUNT={
       <section class="acc-box"><h2>Senha</h2><p>Troque quando quiser, sem precisar de email.</p>
         <form id="pw" class="grid2"><div class="fld"><label for="np">Nova senha</label><input id="np" type="password" minlength="6" autocomplete="new-password" required></div><div class="fld"><label for="np2">Repita a senha</label><input id="np2" type="password" minlength="6" autocomplete="new-password" required></div>
         <p class="err full" id="pe"></p><button class="pill full">Atualizar senha</button></form></section>
+      <section class="acc-box danger"><h2>Excluir conta</h2><p>Apaga seu cadastro e seus dados. Os pedidos já feitos ficam guardados para o estúdio. Não dá para desfazer.</p><button type="button" class="dang" id="delBtn">Excluir minha conta</button></section>
     </div>`;
+    const toBlob=f=>new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const s=Math.min(im.width,im.height),c=document.createElement("canvas");c.width=c.height=320;c.getContext("2d").drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,320,320);URL.revokeObjectURL(u);c.toBlob(b=>b?res(b):rej(new Error("img")),"image/jpeg",.85)};im.onerror=()=>rej(new Error("img"));im.src=u});
+    const setMeta=async url=>{const r=await sb.auth.updateUser({data:{avatar_url:url}});if(r.error)throw r.error;if(r.data?.user)user=r.data.user;navUser()};
+    const fi=el.querySelector("#avFile");el.querySelector("#avBtn").onclick=()=>fi.click();
+    fi.onchange=async()=>{const f=fi.files[0];if(!f)return;if(!f.type.startsWith("image/")){toast("Escolha uma imagem.");return}
+      try{const b=await toBlob(f),path=`${user.id}/avatar.jpg`;
+        const up=await sb.storage.from("avatars").upload(path,b,{upsert:true,contentType:"image/jpeg"});if(up.error)throw up.error;
+        await setMeta(sb.storage.from("avatars").getPublicUrl(path).data.publicUrl+"?v="+Date.now());toast("Foto atualizada 💖");ACCOUNT.conta(el)}
+      catch(x){toast("Não consegui enviar a foto. O armazenamento de fotos ainda não foi ativado.")}};
+    const rm=el.querySelector("#avRm");if(rm)rm.onclick=async()=>{try{await sb.storage.from("avatars").remove([`${user.id}/avatar.jpg`]);await setMeta("");toast("Foto removida.");ACCOUNT.conta(el)}catch{toast("Não consegui remover a foto.")}};
+    el.querySelector("#delBtn").onclick=()=>{const w=document.createElement("div");w.className="sheet-bg";
+      w.innerHTML=`<div class="sheet" role="dialog" aria-modal="true"><h3>Excluir sua conta?</h3><p>Seu cadastro e seus dados serão apagados para sempre. Os pedidos já feitos ficam guardados para o estúdio.</p><label for="dc" class="dl">Digite <b>EXCLUIR</b> para confirmar</label><input id="dc" autocomplete="off"><p class="err" id="de"></p><div class="srow"><button class="pill" data-x>Cancelar</button><button class="btn dang2" data-ok disabled>Excluir de vez</button></div></div>`;
+      document.body.appendChild(w);const close=()=>w.remove(),ok=w.querySelector("[data-ok]"),inp=w.querySelector("#dc");
+      w.onclick=e=>{if(e.target===w)close()};w.querySelector("[data-x]").onclick=close;
+      inp.oninput=()=>{ok.disabled=inp.value.trim().toUpperCase()!=="EXCLUIR"};
+      ok.onclick=async()=>{ok.disabled=true;ok.textContent="Excluindo…";const de=w.querySelector("#de");de.textContent="";
+        try{await sb.storage.from("avatars").remove([`${user.id}/avatar.jpg`])}catch{}
+        const {error}=await sb.rpc("delete_my_account");
+        if(error){ok.disabled=false;ok.textContent="Excluir de vez";de.textContent=/function|schema cache|could not find/i.test(error.message)?"A exclusão ainda não foi ativada no banco. Chame a gente no WhatsApp.":error.message;return}
+        try{await sb.auth.signOut()}catch{}user=null;navUser();close();toast("Conta excluída. Obrigada por ter passado por aqui 💖");location.hash="#/"}};
     el.querySelector("#so").onclick=async()=>{await sb.auth.signOut();toast("Você saiu da conta.");location.hash="#/"};
     el.querySelector("#goFav").onclick=()=>setTimeout(()=>document.getElementById("favBtn").click(),90);
     el.querySelector("#goCart").onclick=e=>{e.preventDefault();location.hash="#/";setTimeout(()=>document.getElementById("cartBtn").click(),90)};

@@ -11,7 +11,7 @@ const lineTotal=(p,v,q)=>p.extraUnit!=null&&p.minQuantity?v.price+Math.max(0,q-p
 const T=i=>i.total??i.unitPrice*i.quantity;
 const isPack=i=>{const p=products.find(x=>x.slug===i.slug);return !!(p&&p.extraUnit!=null)};
 const open=(el)=>{el.hidden=false;$("overlay").hidden=false};
-const closeAll=()=>{["modal","drawer","overlay"].forEach(i=>$(i).hidden=true)};
+const closeAll=()=>{["modal","overlay"].forEach(i=>$(i).hidden=true)};
 $("overlay").onclick=closeAll;
 /* ---- Frete ----
    modo "desligado": carrinho como era antes (frete combinado no WhatsApp) — padrão até haver pesos e medidas reais
@@ -90,7 +90,6 @@ $("q").oninput=e=>{clearTimeout(window._t);window._t=setTimeout(()=>setF("q",e.t
 $("sort").onchange=e=>setF("ordem",e.target.value);
 $("filtBtn").onclick=()=>{const o=$("filtros").hidden;$("filtros").hidden=!o;$("filtBtn").setAttribute("aria-expanded",o)};
 $("clear").onclick=()=>{history.replaceState(null,"",location.pathname+location.hash);render()};
-$("copyLink").onclick=async()=>{try{await navigator.clipboard.writeText(location.href);$("copyLink").textContent="Copiado ✓"}catch{$("copyLink").textContent="Copie da barra"}setTimeout(()=>$("copyLink").textContent="Copiar link",1800)};
 $("bnFav").onclick=()=>$("favBtn").click();$("bnCart").onclick=()=>$("cartBtn").click();
 function toggleFav(s){fav=fav.includes(s)?fav.filter(x=>x!==s):[...fav,s];save("tl_fav",fav);render()}
 $("favBtn").onclick=()=>{onlyFav=!onlyFav;render();scrollTo({top:0,behavior:"smooth"})};
@@ -137,20 +136,36 @@ function showProduct(slug){
   open($("modal"));
 }
 
-function showCart(){
-  const total=cart.reduce((a,i)=>a+T(i),0);
-  $("cartItems").innerHTML=cart.length?cart.map(i=>`<div class="ci"><b>${esc(i.productName)}</b> — ${esc(i.variationName)}
-    ${Object.entries(i.customizations).map(([k,v])=>`<small>${esc(k)}: ${esc(v)}</small>`).join("")}
-    ${i.notes?`<small>Obs: ${esc(i.notes)}</small>`:""}
-    <div><span class="qty"><button data-d="${i.id}:-1">−</button>${i.quantity}<button data-d="${i.id}:1">+</button></span> · ${brl(T(i))} · <button class="rm" data-r="${i.id}">remover</button></div></div>`).join(""):"<p>Seu carrinho está vazio.</p>";
-  $("cartFoot").innerHTML=cart.length?`<p><b>Total: ${brl(total)}</b></p>
-    <div class="field"><label>Seu nome *</label><input id="fn"></div>
-    <div class="field"><label>Cidade / CEP *</label><input id="fc" inputmode="text" autocomplete="postal-code" value="${FRETE.modo!=="desligado"&&freteInfo?esc(fmtCep(freteInfo.cep)):""}">${FRETE.modo!=="desligado"?`<button type="button" class="pill" id="fcalc">Calcular frete pelo CEP</button><div class="fres" id="fres" aria-live="polite"></div>`:""}</div>
-    <div class="field"><label>Observações gerais</label><textarea id="fo" rows="2"></textarea></div>
-    <p class="err" id="ferr"></p><a class="btn" id="send" href="#">Finalizar pelo WhatsApp</a>`:"";
+const cartImg=i=>{const p=products.find(x=>x.slug===i.slug);return(p&&p.images&&p.images[0])||"img/logo.png"};
+const TRASH='<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12h10l1-12M9 7V4h6v3"/></svg>';
+const CART_SKEL='<div class="cartpg"><h1>Seu carrinho <small id="ccount"></small></h1><div class="cgrid"><section id="cartItems" class="cl"></section><aside id="cartFoot" class="cr"></aside></div></div>';
+function showCart(){if(location.hash==="#/carrinho")paintCart();else location.hash="#/carrinho"}
+function confirmRemove(id){const it=cart.find(x=>x.id==id);if(!it)return;
+  const w=document.createElement("div");w.className="sheet-bg";
+  w.innerHTML=`<div class="sheet" role="dialog" aria-modal="true"><h3>Remover do carrinho?</h3><div class="sit"><img src="${cartImg(it)}" alt=""><div><b>${esc(it.productName)}</b><p>${esc(it.variationName)}</p><span class="price">${brl(T(it))}</span></div></div><div class="srow"><button class="pill" data-x>Cancelar</button><button class="btn" data-ok>Sim, remover</button></div></div>`;
+  document.body.appendChild(w);const close=()=>w.remove();
+  w.onclick=e=>{if(e.target===w)close()};w.querySelector("[data-x]").onclick=close;
+  w.querySelector("[data-ok]").onclick=()=>{cart=cart.filter(x=>x.id!=id);save("tl_cart",cart);close();render();showCart()}}
+function paintCart(){
+  const total=cart.reduce((a,i)=>a+T(i),0),n=cart.reduce((a,i)=>a+i.quantity,0),fOn=FRETE.modo!=="desligado"&&freteInfo;
+  const cc=document.getElementById("ccount");if(cc)cc.textContent=n?`(${n} ${n===1?"item":"itens"})`:"";
+  $("cartItems").innerHTML=cart.length?`<div class="chead"><span>Produto</span><span>Preço</span><span>Qtd</span><span>Total</span></div>`+cart.map(i=>`<article class="cit"><img class="cimg" src="${cartImg(i)}" alt="">
+    <div class="cinf"><h3>${esc(i.productName)}</h3><p class="cvar">${esc(i.variationName)}</p>${Object.entries(i.customizations).map(([k,v])=>`<small>${esc(k)}: ${esc(v)}</small>`).join("")}${i.notes?`<small>Obs: ${esc(i.notes)}</small>`:""}</div>
+    <span class="cprice">${brl(T(i)/i.quantity)}</span>
+    <span class="qty"><button data-d="${i.id}:-1" aria-label="Diminuir">−</button><b>${i.quantity}</b><button class="plus" data-d="${i.id}:1" aria-label="Aumentar">+</button></span>
+    <b class="ctot">${brl(T(i))}</b><button class="crm" data-r="${i.id}" aria-label="Remover ${esc(i.productName)}">${TRASH}</button></article>`).join(""):`<div class="cempty"><p>Seu carrinho está vazio.</p><a class="btn go" href="#/">Ver o catálogo</a></div>`;
+  $("cartFoot").innerHTML=cart.length?`<h2>Resumo</h2>
+    <dl class="sum"><div><dt>Subtotal</dt><dd>${brl(total)}</dd></div><div><dt>Frete</dt><dd id="sfrete">${fOn?brl(freteInfo.valor):"Combinado no WhatsApp"}</dd></div><div class="tt"><dt>Total</dt><dd id="stot">${brl(total+(fOn?freteInfo.valor:0))}</dd></div></dl>
+    <div class="field"><label for="fn">Seu nome *</label><input id="fn" autocomplete="name"></div>
+    <div class="field"><label for="fc">Cidade / CEP *</label><input id="fc" inputmode="text" autocomplete="postal-code" value="${FRETE.modo!=="desligado"&&freteInfo?esc(fmtCep(freteInfo.cep)):""}">${FRETE.modo!=="desligado"?`<button type="button" class="pill" id="fcalc">Calcular frete pelo CEP</button><div class="fres" id="fres" aria-live="polite"></div>`:""}</div>
+    <div class="field"><label for="fo">Observações gerais</label><textarea id="fo" rows="2"></textarea></div>
+    <label class="chk"><input type="checkbox" id="fterms"><span>Li e concordo com os <a href="#/politicas/termos">Termos de uso</a> e as <a href="#/politicas/trocas">políticas de trocas</a>.</span></label>
+    <p class="err" id="ferr"></p><a class="btn" id="send" href="#">Finalizar pelo WhatsApp</a><a class="pill wide" href="#/">Continuar comprando</a>
+    <svg class="bagbg" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8zM9 8V6a3 3 0 016 0v2"/></svg>`:"";
   $("cartItems").querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{const[id,d]=b.dataset.d.split(":");const it=cart.find(x=>x.id==id);const pr=products.find(x=>x.slug===it.slug),vv=pr.variations.find(x=>x.name===it.variationName);it.quantity=Math.max(pr.minQuantity||1,it.quantity+ +d);it.total=lineTotal(pr,vv,it.quantity);save("tl_cart",cart);render();showCart()});
-  $("cartItems").querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{cart=cart.filter(x=>x.id!=b.dataset.r);save("tl_cart",cart);render();showCart()});
+  $("cartItems").querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>confirmRemove(b.dataset.r));
   const paintFrete=()=>{
+    const sf=$("sfrete"),stt=$("stot");if(sf&&stt){const v=freteInfo?freteInfo.valor:null;sf.textContent=v!=null?brl(v):"Combinado no WhatsApp";stt.textContent=brl(total+(v||0))}
     const r=$("fres");if(!r)return;
     if(!freteInfo){r.innerHTML="";return}
     r.innerHTML=`<p>Entrega para <b>${esc(freteInfo.local)}</b> · ${esc(freteInfo.regra)}</p><p>Frete${FRETE.modo==="api"?"":" estimado"}: <b>${brl(freteInfo.valor)}</b> <small>(${esc(freteInfo.prazo)})</small></p><p><b>Total com frete: ${brl(total+freteInfo.valor)}</b></p><small>${FRETE.modo==="api"?"O frete final é confirmado no WhatsApp.":"Valor estimado por região; o frete final é confirmado no WhatsApp."}</small>`};
@@ -175,6 +190,7 @@ function showCart(){
   if(cart.length)$("send").onclick=e=>{
     e.preventDefault();const n=$("fn").value.trim(),c=$("fc").value.trim();
     if(!n||!c){$("ferr").textContent="Informe seu nome e cidade/CEP.";return}
+    if(!$("fterms").checked){$("ferr").textContent="Marque que você concorda com os termos para continuar.";return}
     const L=["*🌙 Novo pedido — Thau Luna Studio*","",`*Nome:* ${n}`,`*Cidade / CEP:* ${c}`];
     if($("fo").value.trim())L.push(`*Observações gerais:* ${$("fo").value.trim()}`);
     L.push("","*Produtos:*");
@@ -187,9 +203,8 @@ function showCart(){
     if(ph.length){L.push("","*📸 Fotos que vou enviar nesta conversa:*");ph.forEach(i=>L.push(`• ${i.productName} — ${i.variationName}: ${i.quantity} foto(s)`))}
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(L.join("\n"))}`,"_blank");
   };
-  open($("drawer"));
 }
-$("cartBtn").onclick=showCart;$("closeCart").onclick=closeAll;
+$("cartBtn").onclick=()=>showCart();
 render();
 
 /* ---- Rotas (hash) ---- */
@@ -200,6 +215,7 @@ window.route=function(){
   if(!r){home.hidden=false;v.hidden=true;document.title="Thau Luna Studio — Onde cada detalhe conta!";return}
   home.hidden=true;v.hidden=false;scrollTo(0,0);
   const A=window.ACCOUNT,acc={entrar:A.entrar,conta:A.conta,pedidos:A.pedidos,"reset-password":A.reset};
+  if(r==="carrinho"){v.innerHTML=CART_SKEL;paintCart();document.title="Carrinho — Thau Luna Studio";return}
   if(acc[r])acc[r](v);
   else if(window.PAGES[r])v.innerHTML=window.PAGES[r];
   else v.innerHTML='<div class="page c"><h1>Página não encontrada</h1><p><a href="#/">Voltar ao catálogo</a></p></div>';
@@ -214,3 +230,8 @@ b.onclick=()=>set(!n.classList.contains("open"));
 n.addEventListener("click",e=>{if(e.target.closest("a"))set(false)});
 addEventListener("hashchange",()=>set(false));
 document.addEventListener("keydown",e=>{if(e.key==="Escape")set(false)});})();
+
+/* ---- Luna's Library ---- */
+(()=>{const L=window.TL_CONFIG||{},a=document.getElementById("libBtn");if(!a)return;
+ if(L.LUNAS_LIBRARY_URL&&L.LUNAS_LIBRARY_READY){a.href=L.LUNAS_LIBRARY_URL;a.target="_blank";a.rel="noopener"}
+ else{a.removeAttribute("href");a.setAttribute("aria-disabled","true");a.textContent="Em breve"}})();
